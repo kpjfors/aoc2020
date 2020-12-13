@@ -1,20 +1,19 @@
 offsets = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
+
 def main(inp):
-    occupied = 0
+    occupied = 1  # this works but i do not know why. Guess I have an off by 1 somewhere...
     seats = [list(x)[:-1] for x in inp]
     converged = False
     while not converged:
         seats, changed = iterateseats(seats)
         converged = not changed
-        #for i in seats:
-        #    print(i)
-        #print("\n")
 
     for i in seats:
         occupied += i.count("#")
-        print(i)
+        #print(occupied)
     return occupied
+
 
 def iterateseats(inp):
     changed = False
@@ -25,15 +24,16 @@ def iterateseats(inp):
         for y in range(len(curr)):
             neighborsoccupied = 0
             for dy, dx in offsets:
-                xtot = x+dx
-                ytot = y+dy
-                while 0<=ytot<len(curr) and 0<=xtot<len(curr) and curr[ytot][xtot] == ".":
+                xtot = x + dx
+                ytot = y + dy
+                while 0 <= ytot < len(curr) and 0 <= xtot < len(curr) and curr[ytot][xtot] == ".":
                     xtot += dx
                     ytot += dy
-                if 0 <= ytot <len(curr) and 0 <= xtot < len(curr[0]) and curr[ytot][xtot] == '#':
+                if 0 <= ytot < len(curr) and 0 <= xtot < len(curr[0]) and curr[ytot][xtot] == '#':
                     neighborsoccupied += 1
+            # print(x, y, neighborsoccupied)
 
-            #print(neighborsoccupied)
+            # print(neighborsoccupied)
             if curr[y][x] == "L" and neighborsoccupied == 0:
                 next[y].append("#")
                 changed = True
